@@ -65,7 +65,7 @@ namespace ChatApp
             {
                 await Clients.Client(curSignalId).SendAsync("ResponseFail");
             }
-            //await Clients.Caller.SendAsync("ResponseSuccess", user);
+            
         }
 
         public void ConnectRemove(string userName)
@@ -83,7 +83,7 @@ namespace ChatApp
             }
         }
 
-        public async Task sendMsg(TextMessageModel message)
+        public async Task sendMsg(TextMessageModel message) // for allowing of file messages. we will not have to change anything just add 
         {
             Message newMessage = null;
             TextMessageModel response = null;

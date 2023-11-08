@@ -66,12 +66,17 @@ namespace ChatApp.Infrastructure.ServiceImplementation
 
                 var obj = new TextMessageModel();
                 // will update if needed 
-
+                obj.Id = content.Id;
                 obj.SenderId = userId == content.SenderId ? userId : seluserId;
                 obj.ReceiverId = seluserId == content.ReceiverId ? seluserId : userId;
                 obj.Content = content.Content;
                 obj.DateTime = content.DateTime;
                 obj.Type = content.Type;
+                if (content.RepliedToId != 0 )
+                {
+                    obj.RepliedToId = content.RepliedToId;
+                    obj.RepliedContent = content.RepliedContent;
+                }
                 // Now implement the IsSeen for both senerios 
                 if (content.SenderId == userId)
                 {
@@ -268,9 +273,9 @@ namespace ChatApp.Infrastructure.ServiceImplementation
 
         public void ResponsesToUsersMessage(int sender, int reciever, TextMessageModel response)
         {
-            Connection Sender = this.context.Connections.FirstOrDefault(u => u.ProfileId == reciever
+            Connection Sender = this.context.Connections.FirstOrDefault(u => u.ProfileId == sender
             );
-            Connection Receiver = this.context.Connections.FirstOrDefault(u => u.ProfileId == sender
+            Connection Receiver = this.context.Connections.FirstOrDefault(u => u.ProfileId == reciever
             );
             if (Receiver != null)
             {

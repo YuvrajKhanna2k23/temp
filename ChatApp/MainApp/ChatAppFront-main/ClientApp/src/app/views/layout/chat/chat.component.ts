@@ -40,8 +40,8 @@ export class ChatComponent {
 
   userId : string ;
   imageFile: File;
-    fileType: string;
-imageSrc: any;
+  fileType: string;
+  imageSrc: any;
   constructor(private chatService :ChatService, private authService : AuthService,private modalService : NgbModal) {
     
   }
@@ -60,11 +60,11 @@ imageSrc: any;
   const text = message.value + event.emoji.native;
   message.value = text;
   this.showEmoji = false;
-}
+ }
 
-toggleEmoji(message :any){
+ toggleEmoji(message :any){
   this.showEmoji = !this.showEmoji;
-}
+ }
 
   submitMessage(event) {
     // getting content from the textarea 
@@ -80,12 +80,15 @@ toggleEmoji(message :any){
     }
     else{
       console.log(this.messageInput.replyedToId);
-      this.chatService.sendReplyMessage(value,this.currentUserId,this.userId,'Null',this.messageInput.replyedToId,this.messageInput.replyedToId).subscribe((data)=>{
-        console.log(data);
-        this.chatService.Message.next(this.currentUserName);
-        this.dataEmitter.emit([value,this.userId,this.messageInput.replyedToId]);
-      });
+      // this.chatService.sendReplyMessage(value,this.currentUserId,this.userId,'Null',this.messageInput.replyedToId,this.messageInput.replyedToId).subscribe((data)=>{
+      //   console.log(data);
+      //   this.chatService.Message.next(this.currentUserName);
+      //   this.dataEmitter.emit([value,this.userId,this.messageInput.replyedToId]);
+      // });
+      this.dataEmitter.emit([value,this.userId,this.messageInput.replyedToId,this.messageInput.content]);
     }
+    this.CloseRplyMsg();
+
     return true;
   }
 
@@ -146,19 +149,21 @@ toggleEmoji(message :any){
     this.chatService.sendFileMessages(formdata).subscribe((data)=>{
       console.log(data);
     })
-    
+    let type = this.imageFile.type ; 
+    // we will add a signalr connection to this so 
+    this.dataEmitter.emit([formdata,this.userId,0,type]);
   }
   
 
   // Implement the logic for replying to a message.
   ToggleReplyMsg(msg:any){
-    console.log(msg);
+    console.log(msg.id);
     console.log("event fired");
     this.messageInput.replyedToId = msg.id;
     this.messageInput.isReply = true;
     this.messageInput.content = msg.content;
     this.IsReplying = true;
-    console.log(this.messageInput);
+    console.log(this.messageInput.replyedToId);
   }
   CloseRplyMsg(){
    this.IsReplying = false;

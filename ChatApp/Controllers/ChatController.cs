@@ -116,7 +116,7 @@ namespace ChatApp.Controllers
         public IActionResult GetConversations([FromQuery]string userName)
         {
             var usrId = chatService.FetchUserIdByUsername(userName);
-            var conversations = context.ConversationResults.FromSqlRaw("EXEC dbo.GetAllConversationByUserId @p0", usrId).ToList();
+            var conversations = context.ConversationResults.FromSqlRaw("EXEC dbo.GetAllConversationByUId @p0", usrId).ToList();
             // conversations.Reverse();
             return Ok(conversations);
 

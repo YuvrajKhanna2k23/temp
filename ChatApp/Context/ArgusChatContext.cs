@@ -41,6 +41,7 @@ public partial class ArgusChatContext : DbContext
         // Map stored procedure
         modelBuilder.Entity<ConversationResult>().HasNoKey().ToView("GetAllConversationByUserId");
         modelBuilder.Entity<ConversationResult>().HasNoKey().ToView("GetAllConversationByUserIdsBoth");
+        modelBuilder.Entity<ConversationResult>().HasNoKey().ToView("GetAllConversationByUId");
 
         
 

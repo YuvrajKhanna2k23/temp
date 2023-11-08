@@ -69,25 +69,44 @@ export class ChatpageComponent {
 
 
   handleData(data: any[]) {
-    console.log(data[1]);
-    console.log(this.currentUserId);
+ 
+    // we will check if the dataemitter has a field for type if yes then it is a media file message. 
+   if (data[3] === "" || data[3] === null || data[3] === undefined) {
 
+    if(data[2] === undefined || data[2] === ""){
+      let value = {
+        Content: data[0],
+        SenderId: this.currentUserId,
+        ReceiverId: data[1],
+        DateTime: null,
+        IsReply: 0,
+        IsSeen: 0,
+        RepliedToId: 0,
+        Type: null,
+        RepliedContent: '',
+        Id: null
+      }
+      this.signalRService.hubConnection.invoke('sendMsg', value).catch((error) => console.log(error));
+    }
     
+   }
+   else{
     let value = {
       Content: data[0],
       SenderId: this.currentUserId,
       ReceiverId: data[1],
       DateTime: null,
-      IsReply: 0,
+      IsReply: 1,
       IsSeen: 0,
-      RepliedToId: 0,
+      RepliedToId: data[2],
       Type: null,
-      RepliedContent: '',
+      RepliedContent: data[3],
       Id: null
     }
-
     console.log(value);
     this.signalRService.hubConnection.invoke('sendMsg', value).catch((error) => console.log(error));
+   }
+    
   }
 
   

@@ -137,7 +137,9 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("Default", "{controller=Home}/{action=Index}/{id?}");
-    endpoints.MapHub<Chathub>("/Chathub", o => o.Transports = HttpTransportType.WebSockets);
+
+    endpoints.MapHub<Chathub>("/Chathub", 
+        o => o.Transports = HttpTransportType.WebSockets);
 });
 
 app.UseSwagger();

@@ -7,6 +7,7 @@ import { FooterComponent } from './views/layout/footer/footer.component';
 import { SidebarComponent } from './views/layout/sidebar/sidebar.component';
 import { ChatComponent } from './views/layout/chat/chat.component';
 import { ChatpageComponent } from './views/pages/chatpage/chatpage.component';
+import { SignalRService } from './services/signalr/signal-r.service';
 
 
 
@@ -31,7 +32,13 @@ import { ChatpageComponent } from './views/pages/chatpage/chatpage.component';
 })
 export class AppComponent {
   title = 'ClientApp';
-  
+  constructor(private signalRService : SignalRService){
 
+  }
+
+  ngOnInit(){
+    let user =  localStorage.getItem('username');
+    this.signalRService.startConnection(user);
+  }
   
 }
